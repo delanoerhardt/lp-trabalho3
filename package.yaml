@@ -1,0 +1,27 @@
+name: trab3
+dependencies:
+  - base
+  - hspec
+
+executables:
+  trab2:
+    main: Root/Main/Main.hs
+    source-dirs: .
+    ghc-options:
+      - -threaded
+    when:
+      - condition: false
+        other-modules:
+          - Root.Testes.Testes
+
+tests:
+  stack-test:
+    main: ./Root/Testes/Testes.hs
+    source-dirs: .
+    ghc-options:
+      - -threaded
+    when:
+      - condition: false
+        other-modules:
+          - Root.Main.Main
+          - Root.Testes.Testes

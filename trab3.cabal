@@ -1,0 +1,64 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
+
+name:           trab3
+version:        0.0.0
+build-type:     Simple
+
+executable trab2
+  main-is: Root/Main/Main.hs
+  other-modules:
+      Root.Questoes.Q1.AbsLI
+      Root.Questoes.Q1.Interpreter
+      Root.Questoes.Q2.AbsLI
+      Root.Questoes.Q2.Interpreter
+      Root.Questoes.Q3.AbsLI
+      Root.Questoes.Q3.Interpreter
+      Root.Questoes.Q4.AbsLI
+      Root.Questoes.Q4.Interpreter
+      Root.Questoes.Q5.AbsLI
+      Root.Questoes.Q5.Interpreter
+      Root.Testes.TestesQ1
+      Root.Testes.TestesQ2
+      Root.Testes.TestesQ3
+      Root.Testes.TestesQ4
+      Root.Testes.TestesQ5
+      Paths_trab3
+  hs-source-dirs:
+      ./
+  ghc-options: -threaded
+  build-depends:
+      base
+    , hspec
+  default-language: Haskell2010
+
+test-suite stack-test
+  type: exitcode-stdio-1.0
+  main-is: ./Root/Testes/Testes.hs
+  build-depends:
+      base
+    , hspec
+  default-language: Haskell2010
+  other-modules:
+      Root.Questoes.Q1.AbsLI
+      Root.Questoes.Q1.Interpreter
+      Root.Questoes.Q2.AbsLI
+      Root.Questoes.Q2.Interpreter
+      Root.Questoes.Q3.AbsLI
+      Root.Questoes.Q3.Interpreter
+      Root.Questoes.Q4.AbsLI
+      Root.Questoes.Q4.Interpreter
+      Root.Questoes.Q5.AbsLI
+      Root.Questoes.Q5.Interpreter
+      Root.Testes.TestesQ1
+      Root.Testes.TestesQ2
+      Root.Testes.TestesQ3
+      Root.Testes.TestesQ4
+      Root.Testes.TestesQ5
+      Paths_trab3
+  hs-source-dirs:
+      ./
+  ghc-options: -threaded

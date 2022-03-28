@@ -17,9 +17,8 @@ execute context x = case x of
     if ((eval context exp) /= 0)
       then execute (execute context stm) (SWhile exp stm)
       else context
-  {- trate aqui o caso de o comando "x" ser um comando "SdoWhile"
-   dica: uma solucao mais curta tem 1 linha, e uma solucao mais "longa" tem menos de 5 linhas
-  -}
+  SdoWhile stm exp -> execute (execute context stm) (SWhile exp stm)
+
 
 eval :: RContext -> Exp -> Integer
 eval context x = case x of

@@ -4,6 +4,7 @@ import Root.Questoes.Q3.AbsLI
 import Prelude hiding (lookup)
 
 type RContext = [(String, Integer)]
+
 type ErrorMessage = String
 
 {- Dica: somente o tipo de executeP precisa mudar (conforme abaixo),
@@ -22,25 +23,62 @@ executeP context (Prog stm) = execute context stm
 -}
 execute :: RContext -> Stm -> Either ErrorMessage RContext
 execute context x = case x of
-  SAss id exp -> update context (getStr id) (eval context exp)
-  SBlock [] -> context
-  SBlock (s : stms) -> execute (execute context s) (SBlock stms)
+  SAss id exp ->
+    case eval context exp of
+      Left err -> Left err
+      Right val -> Right (update context (getStr id) (val))
+  SBlock [] -> Right context
+  SBlock (s : stms) ->
+    case execute context s of
+      Left err -> Left err
+      Right newContext -> execute newContext (SBlock stms)
   SWhile exp stm ->
-    if ((eval context exp) /= 0)
-      then execute (execute context stm) (SWhile exp stm)
-      else context
+    case eval context exp of
+      Left err -> Left err
+      Right condVal ->
+        if condVal /= 0
+          then case execute context stm of
+            Left err -> Left err
+            Right newContext -> execute newContext (SWhile exp stm)
+          else Right context
 
 {- Dica: o tipo de eval deve mudar para
  eval :: RContext -> Exp -> Either ErrorMessage Integer
 -}
 eval :: RContext -> Exp -> Either ErrorMessage Integer
 eval context x = case x of
-  EAdd exp0 exp -> eval context exp0 + eval context exp
-  ESub exp0 exp -> eval context exp0 - eval context exp
-  EMul exp0 exp -> eval context exp0 * eval context exp
-  EDiv exp0 exp -> eval context exp0 `div` eval context exp
-  EInt n -> n
-  EVar id -> lookup context (getStr id)
+  EAdd exp0 exp ->
+    case eval context exp0 of
+      Left err -> Left err
+      Right v1 ->
+        case eval context exp of
+          Left err -> Left err
+          Right v2 -> Right (v1 + v2)
+  ESub exp0 exp ->
+    case eval context exp0 of
+      Left err -> Left err
+      Right v1 ->
+        case eval context exp of
+          Left err -> Left err
+          Right v2 -> Right (v1 - v2)
+  EMul exp0 exp ->
+    case eval context exp0 of
+      Left err -> Left err
+      Right v1 ->
+        case eval context exp of
+          Left err -> Left err
+          Right v2 -> Right (v1 * v2)
+  EDiv exp0 exp ->
+    case eval context exp of
+      Left err -> Left err
+      Right 0 -> Left "divisao por 0"
+      Right n ->
+        case eval context exp0 of
+          Left err -> Left err
+          Right n1 -> Right (n1 `div` n)
+  EInt n -> Right n
+  EVar id -> Right (lookup context (getStr id))
+
 {-  algumas dicas abaixo...para voce adaptar o codigo acima
     EDiv e1 e2 -> case eval context e1 of
                     Right ve1 -> case eval context e2 of
@@ -53,7 +91,6 @@ eval context x = case x of
     EInt n  ->  Right n
 -}
 
-
 -- Dica: voce nao precisa mudar o codigo a partir daqui
 
 getStr :: Ident -> String
@@ -63,6 +100,7 @@ lookup :: RContext -> String -> Integer
 lookup ((i, v) : cs) s
   | i == s = v
   | otherwise = lookup cs s
+lookup [] _ = error "Variable not found"
 
 update :: RContext -> String -> Integer -> RContext
 update [] s v = [(s, v)]

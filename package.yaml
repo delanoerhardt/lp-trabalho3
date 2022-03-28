@@ -2,26 +2,26 @@ name: trab3
 dependencies:
   - base
   - hspec
-
-executables:
-  trab2:
-    main: Root/Main/Main.hs
-    source-dirs: .
-    ghc-options:
-      - -threaded
-    when:
-      - condition: false
-        other-modules:
-          - Root.Testes.Testes
-
+  
 tests:
-  stack-test:
-    main: ./Root/Testes/Testes.hs
+  q1:
+    main: ./Root/Testes/TestesQ1.hs
     source-dirs: .
-    ghc-options:
-      - -threaded
-    when:
-      - condition: false
-        other-modules:
-          - Root.Main.Main
-          - Root.Testes.Testes
+    ghc-options: "-threaded -main-is Root.Testes.TestesQ1"
+  q2:
+    main: ./Root/Testes/TestesQ2.hs
+    source-dirs: .
+    ghc-options: "-threaded -main-is Root.Testes.TestesQ2"
+  q3:
+    main: ./Root/Testes/TestesQ3.hs
+    source-dirs: .
+    ghc-options: "-threaded -main-is Root.Testes.TestesQ3"
+  q4:
+    main: ./Root/Testes/TestesQ4.hs
+    source-dirs: .
+    ghc-options: "-threaded -main-is Root.Testes.TestesQ4"
+  q5:
+    main: ./Root/Testes/TestesQ5.hs
+    source-dirs: .
+    ghc-options: "-threaded -main-is Root.Testes.TestesQ5"
+

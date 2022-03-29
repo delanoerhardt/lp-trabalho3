@@ -3,14 +3,12 @@ module Root.Questoes.Q2.Interpreter where
 import Root.Questoes.Q2.AbsLI
 import Prelude hiding (lookup)
 
--- a assinatura do tipo 'RContext' muda
 type RContext = [(String, Valor)]
 
 data Valor
   = ValorStr String
   | ValorInt Integer
   | ValorBool Bool
--- note que ja foi adicionado acima um novo contrutor de tipo para valor booleano
 
 s :: Valor -> String
 s (ValorStr str) = str
@@ -20,7 +18,6 @@ i :: Valor -> Integer
 i (ValorInt vint) = vint
 i _ = error "invalid Valor"
 
--- a funcao "b" abaixo recupera o valor booleano dentro de um valor
 b :: Valor -> Bool
 b (ValorBool vbool) = vbool
 b _ = error "invalid Valor"
@@ -30,7 +27,6 @@ instance Show Valor where
   show (ValorStr vstr) = vstr
   show (ValorBool vb) = show vb
 
--- precisamos que Valor esteja em Eq para podermos especificar os casos de teste em Testes.hs
 instance Eq Valor where
   (ValorInt i1) == (ValorInt i2) = i1 == i2
   (ValorStr s1) == (ValorStr s2) = s1 == s2
@@ -49,7 +45,6 @@ execute context x = case x of
       then execute (execute context stm) (SWhile exp stm)
       else context
       
--- note que a funcao eval retorna agora um Valor
 eval :: RContext -> Exp -> Valor
 eval context x = case x of
   EAdd exp0 exp -> ValorInt (i (eval context exp0) + i (eval context exp))
